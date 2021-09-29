@@ -17,3 +17,7 @@ logging:
   level:
     org.hibernate:
       SQL: DEBUG
+
+token:
+  expiration_time: 86400
+  secret: secret

@@ -5,7 +5,6 @@ import com.project.fastLane.contents.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -23,24 +22,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final Environment env;
 
 
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
     }
 
-        @Override
-        public void configure(WebSecurity web) throws Exception {
-            web.ignoring().antMatchers("/favicon.ico", "/swagger*", "/swagger.json", "/swagger-resources/**", "/swagger-*/**", "/webjars/**","/swagger-ui");
-        }
-
-
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/favicon.ico", "/swagger*", "/swagger.json", "/swagger-resources/**", "/swagger-*/**", "/webjars/**", "/swagger-ui");
+    }
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/**","/swagger-ui").permitAll()
+                .authorizeRequests().antMatchers("/login", "/swagger-ui", "user/users").permitAll()
                 .and()
                 .addFilter(getAuthenticationFilter())
                 .headers().frameOptions().disable();

@@ -1,4 +1,4 @@
-package com.project.fastLane.contents.model;
+package com.project.fastLane.contents.model.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
