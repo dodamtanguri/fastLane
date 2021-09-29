@@ -8,6 +8,6 @@ public interface UserService extends UserDetailsService {
 
     UserDto loginUser(String email);
 
-    void deleteUser(String email);
+    void deleteUser();
 
 }

@@ -58,7 +58,7 @@ public class UserController {
     @DeleteMapping(value = "/delete")
     public ResponseEntity<?> deleteUser(@Valid @RequestParam(name = "email") String email) throws Exception {
         try {
-            userService.deleteUser(email);
+            userService.deleteUser();
             return ResponseEntity.noContent().build();
         } catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
