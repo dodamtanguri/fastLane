@@ -26,10 +26,7 @@ public class UserEntity {
     private String name;
 
     @Column(nullable = false, unique = true)
-    private String userId;
-
-    @Column(nullable = false, unique = true)
-    private String encryptedPassword;
+    private String Password;
 
     @Column(nullable = false, updatable = false, insertable = false)
     @ColumnDefault(value = "CURRENT_TIMESTAMP")

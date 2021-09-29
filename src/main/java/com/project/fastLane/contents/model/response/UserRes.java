@@ -10,5 +10,4 @@ import lombok.Data;
 public class UserRes {
     private String email;
     private String name;
-    private String userId;
 }
