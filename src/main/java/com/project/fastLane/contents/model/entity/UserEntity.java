@@ -1,5 +1,6 @@
 package com.project.fastLane.contents.model.entity;
 
+import com.project.fastLane.commons.enmuns.Status;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,11 @@ public class UserEntity {
 
     @Column(nullable = false, unique = true)
     private String Password;
+
+    @Column(nullable = false, columnDefinition = "varchar(4) default 'Y'")
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.Y;
+
 
     @Column(nullable = false, updatable = false, insertable = false)
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
