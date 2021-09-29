@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 @Getter
 @NoArgsConstructor
 public class UserReq {
+
     @NotNull(message = "Email cannot be null")
     @Size(min = 2, message = "Email not be less than two characters")
     @Email
