@@ -20,21 +20,19 @@ repositories {
 
 dependencies {
 
-    //swagger3
-    implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security:2.5.4'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
     compileOnly 'org.projectlombok:lombok'
     implementation 'org.modelmapper:modelmapper:2.4.4'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'com.h2database:h2'
-    //implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
 
 }
 

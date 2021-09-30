@@ -30,7 +30,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-
+    /**
+     * 회원가입
+     *
+     * @param userDto
+     * @return UserRes
+     */
     @Override
     public UserDto createUser(UserDto userDto) {
         ModelMapper mapper = new ModelMapper();
@@ -43,6 +48,13 @@ public class UserServiceImpl implements UserService {
         return mapper.map(user, UserDto.class);
     }
 
+    /**
+     * 회원로그인
+     *
+     * @param req
+     * @return nocontent
+     * @throws IllegalAccessException
+     */
     @Override
     public String loginUser(LoginReq req) throws IllegalAccessException {
 
@@ -55,6 +67,11 @@ public class UserServiceImpl implements UserService {
         return userEntity.getEmail();
     }
 
+    /**
+     * 회원 삭제
+     *
+     * @param email
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteUser(String email) {
@@ -65,7 +82,13 @@ public class UserServiceImpl implements UserService {
         userRepository.save(userEntity);
     }
 
+    /**
+     * 회원비밀번호 변경
+     *
+     * @param req
+     */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void modifyPassword(PasswordReq req) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = user.getUsername();

@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 
 @Data
 public class LoginReq {
-    @NotNull(message = "Email caanot be null")
+    @NotNull(message = "Email cannot be null")
     @Size(min = 2, message = "Email not be less than two characters")
     @Email
     private String email;
