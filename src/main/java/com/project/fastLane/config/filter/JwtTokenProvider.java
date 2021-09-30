@@ -1,9 +1,14 @@
 package com.project.fastLane.config.filter;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Base64;
+import java.util.Date;
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,17 +17,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Base64;
-import java.util.Date;
-
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
+
     private final UserDetailsService userDetailsService;
+    
     @Value("${token.secret}")
     private String secretKey;
 
@@ -35,15 +35,14 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-
     public String generateToken(final String email) {
         Claims claims = Jwts.claims().setSubject(email);
         return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(new Date())
-                .setExpiration(Date.from(LocalDateTime.now().plusMonths(1).atZone(ZoneId.systemDefault()).toInstant()))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
+            .setClaims(claims)
+            .setIssuedAt(new Date())
+            .setExpiration(Date.from(LocalDateTime.now().plusMonths(1).atZone(ZoneId.systemDefault()).toInstant()))
+            .signWith(SignatureAlgorithm.HS256, secretKey)
+            .compact();
     }
 
     /**
@@ -78,15 +77,14 @@ public class JwtTokenProvider {
     }
 
     /**
-     * JWT token 만료일 확인
+     * JWT token 서명 확인
      *
      * @param token JWT token
      * @return
      */
     public boolean validateToken(String token) {
         try {
-
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             return false;

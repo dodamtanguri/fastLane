@@ -1,13 +1,16 @@
 package com.project.fastLane.contents.model.request;
 
-import lombok.Data;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LoginReq {
+
     @NotNull(message = "Email cannot be null")
     @Size(min = 2, message = "Email not be less than two characters")
     @Email

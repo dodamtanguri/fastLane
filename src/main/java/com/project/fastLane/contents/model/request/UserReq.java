@@ -1,14 +1,14 @@
 package com.project.fastLane.contents.model.request;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserReq {
 
     @NotNull(message = "Email cannot be null")

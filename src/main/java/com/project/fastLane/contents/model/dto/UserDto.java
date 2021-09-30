@@ -1,13 +1,16 @@
 package com.project.fastLane.contents.model.dto;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.Date;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserDto {
+
     private String email;
     private String password;
     private String name;
