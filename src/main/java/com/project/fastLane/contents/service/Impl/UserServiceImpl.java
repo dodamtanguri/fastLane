@@ -48,8 +48,6 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = userRepository.findByEmailAndStatus(req.getEmail(), Status.Y)
                 .orElseThrow(() -> new UsernameNotFoundException(req.getEmail()));
         if (!passwordEncoder.matches(req.getPassword(), userEntity.getPassword())) {
-            log.info(userEntity.getPassword());
-            log.info(req.getPassword());
             throw new IllegalAccessException("잘못된 비밀번호입니다.");
         }
 

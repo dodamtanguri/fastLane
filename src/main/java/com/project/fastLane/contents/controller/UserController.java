@@ -6,7 +6,6 @@ import com.project.fastLane.contents.model.dto.UserDto;
 import com.project.fastLane.contents.model.request.LoginReq;
 import com.project.fastLane.contents.model.request.PasswordReq;
 import com.project.fastLane.contents.model.request.UserReq;
-import com.project.fastLane.contents.model.response.PasswordRes;
 import com.project.fastLane.contents.model.response.UserRes;
 import com.project.fastLane.contents.service.UserService;
 import io.swagger.annotations.Api;
@@ -90,7 +89,7 @@ public class UserController {
             @ApiResponse(code = 500, message = "Internal Server Error", response = CustomRequestException.class)
     })
     @PutMapping(value = "/password")
-    public ResponseEntity<PasswordRes> modifyPassword(@Valid @RequestBody PasswordReq req) {
+    public ResponseEntity<?> modifyPassword(@Valid @RequestBody PasswordReq req) {
         return null;
     }
 }
