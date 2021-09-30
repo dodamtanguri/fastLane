@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
         String email = user.getUsername();
         UserEntity userEntity = userRepository.findByEmailAndStatus(email, Status.Y)
                 .orElseThrow(() -> new UsernameNotFoundException(email));
-        userEntity.setPassword(passwordEncoder.encode(req.getPassword()));
+        userEntity.setPassword(passwordEncoder.encode(req.getNewPassword()));
         userRepository.save(userEntity);
     }
 
