@@ -1,9 +1,7 @@
 package com.project.fastLane.contents.controller;
 
 import com.project.fastLane.commons.exception.CustomRequestException;
-import com.project.fastLane.config.filter.JwtTokenProvider;
 import com.project.fastLane.contents.model.dto.UserDto;
-import com.project.fastLane.contents.model.request.LoginReq;
 import com.project.fastLane.contents.model.request.PasswordReq;
 import com.project.fastLane.contents.model.request.UserReq;
 import com.project.fastLane.contents.model.response.UserRes;
@@ -29,7 +27,6 @@ import javax.validation.Valid;
 public class UserController {
     private final UserService userService;
     private final Environment env;
-    private final JwtTokenProvider jwtTokenProvider;
 
     /**
      * 회원가입
@@ -53,19 +50,6 @@ public class UserController {
 
     }
 
-    @ApiOperation(value = "로그인")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request", response = CustomRequestException.class),
-            @ApiResponse(code = 500, message = "Internal Server Error", response = CustomRequestException.class)
-    })
-    @PostMapping("/login")
-    public String login(@RequestBody LoginReq req) throws IllegalAccessException {
-        userService.loginUser(req);
-        return jwtTokenProvider.generateToken(req.getEmail());
-    }
-
-
     @ApiOperation(value = "회원삭제")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
@@ -75,7 +59,7 @@ public class UserController {
     @DeleteMapping(value = "/delete")
     public ResponseEntity<?> deleteUser(@Valid @RequestParam(name = "email") String email) throws Exception {
         try {
-            userService.deleteUser();
+            userService.deleteUser(email);
             return ResponseEntity.noContent().build();
         } catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

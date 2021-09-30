@@ -1,6 +1,5 @@
 package com.project.fastLane.config;
 
-import com.project.fastLane.config.filter.AuthenticationFilter;
 import com.project.fastLane.config.filter.JwtAuthenticationFilter;
 import com.project.fastLane.config.filter.JwtTokenProvider;
 import com.project.fastLane.contents.service.UserService;
@@ -56,18 +55,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/user/login", "/user/users").permitAll()
+                .antMatchers("/", "/client/login", "/user/users").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 
     }
 
-
-    private AuthenticationFilter getAuthenticationFilter() throws Exception {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager(), userService, env);
-        authenticationFilter.setAuthenticationManager(authenticationManager());
-        return authenticationFilter;
-    }
 
 }

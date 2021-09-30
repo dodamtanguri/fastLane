@@ -57,9 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteUser() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String email = user.getUsername();
+    public void deleteUser(String email) {
         UserEntity userEntity = userRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 email 입니다."));
 

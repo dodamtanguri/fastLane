@@ -10,7 +10,7 @@ public interface UserService extends UserDetailsService {
 
     String loginUser(LoginReq userInfo) throws IllegalAccessException;
 
-    void deleteUser();
+    void deleteUser(String email);
 
     void modifyPassword(PasswordReq req);
 }
