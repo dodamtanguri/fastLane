@@ -4,6 +4,7 @@ import com.project.fastLane.commons.enmuns.Status;
 import com.project.fastLane.contents.model.dto.UserDto;
 import com.project.fastLane.contents.model.entity.UserEntity;
 import com.project.fastLane.contents.model.request.LoginReq;
+import com.project.fastLane.contents.model.request.PasswordReq;
 import com.project.fastLane.contents.repository.UserRepository;
 import com.project.fastLane.contents.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -58,12 +59,21 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public void deleteUser() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         String email = user.getUsername();
         UserEntity userEntity = userRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 email 입니다."));
 
         userEntity.setStatus(Status.N);
+        userRepository.save(userEntity);
+    }
+
+    @Override
+    public void modifyPassword(PasswordReq req) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String email = user.getUsername();
+        UserEntity userEntity = userRepository.findByEmailAndStatus(email, Status.Y)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
+        userEntity.setPassword(passwordEncoder.encode(req.getPassword()));
         userRepository.save(userEntity);
     }
 

@@ -90,6 +90,11 @@ public class UserController {
     })
     @PutMapping(value = "/password")
     public ResponseEntity<?> modifyPassword(@Valid @RequestBody PasswordReq req) {
-        return null;
+        try {
+            userService.modifyPassword(req);
+            return ResponseEntity.noContent().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
