@@ -26,4 +26,5 @@ public class Swagger {
         return new ApiInfoBuilder().title("FAST LANE PROJECT").description("패스트레인 사전 테스트_회원가입_API")
                 .version("1.0").build();
     }
+
 }

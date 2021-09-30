@@ -34,7 +34,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/favicon.ico", "/swagger*", "/swagger.json", "/swagger-resources/**", "/swagger-*/**", "/webjars/**", "/swagger-ui", "/v2/api-docs");
+        web.ignoring().antMatchers(
+                "/v2/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**",
+                "/swagger-*/**",
+                "/swagger-ui",
+                "/h2-console/**");
     }
 
 
@@ -47,12 +56,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login", "/swagger-ui", "/user/users").permitAll()
+                .antMatchers("/", "/user/login", "/user/users").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginProcessingUrl("/login")
-                .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+
     }
 
 

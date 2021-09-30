@@ -3,6 +3,7 @@ package com.project.fastLane.contents.service.Impl;
 import com.project.fastLane.commons.enmuns.Status;
 import com.project.fastLane.contents.model.dto.UserDto;
 import com.project.fastLane.contents.model.entity.UserEntity;
+import com.project.fastLane.contents.model.request.LoginReq;
 import com.project.fastLane.contents.repository.UserRepository;
 import com.project.fastLane.contents.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
+
     @Override
     public UserDto createUser(UserDto userDto) {
         ModelMapper mapper = new ModelMapper();
@@ -41,11 +43,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto loginUser(String email) {
-        UserEntity userEntity = userRepository.findByEmailAndStatus(email, Status.Y.name())
-                .orElseThrow(() -> new UsernameNotFoundException(email));
+    public String loginUser(LoginReq req) throws IllegalAccessException {
 
-        return new ModelMapper().map(userEntity, UserDto.class);
+        UserEntity userEntity = userRepository.findByEmailAndStatus(req.getEmail(), Status.Y)
+                .orElseThrow(() -> new UsernameNotFoundException(req.getEmail()));
+        if (!passwordEncoder.matches(req.getPassword(), userEntity.getPassword())) {
+            log.info(userEntity.getPassword());
+            log.info(req.getPassword());
+            throw new IllegalAccessException("잘못된 비밀번호입니다.");
+        }
+
+        return userEntity.getEmail();
     }
 
     @Override
@@ -65,7 +73,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(email));
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
         return new User(userEntity.getEmail(), userEntity.getPassword(),
                 true, true, true, true, new ArrayList<>());

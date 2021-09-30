@@ -35,15 +35,9 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    /**
-     * JWT 토큰 생성
-     *
-     * @param accountId 계정 ID
-     * @return
-     */
-    public String generateToken(final String loginId, final Long accountId) {
-        Claims claims = Jwts.claims().setSubject(loginId);
-        claims.put("id", accountId);
+
+    public String generateToken(final String email) {
+        Claims claims = Jwts.claims().setSubject(email);
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date())
@@ -91,9 +85,8 @@ public class JwtTokenProvider {
      */
     public boolean validateToken(String token) {
         try {
-            // 임시조치
+
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            // return !claims.getBody().getExpiration().before(new Date());
             return true;
         } catch (Exception e) {
             return false;
